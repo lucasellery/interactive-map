@@ -84,30 +84,30 @@ export default function Map() {
     });
   };
 
-  const setUserLocation = (map: L.Map) => {
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          map.setView([latitude, longitude], 17);
-          L.marker([latitude, longitude])
-            .addTo(map)
-            .bindPopup("<b>Você está aqui!</b>")
-            .openPopup();
-        },
-        (error) => {
-          console.error("Erro ao obter localização:", error);
-        },
-        {
-          enableHighAccuracy: true,
-          timeout: 10000,
-          maximumAge: 0,
-        }
-      );
-    } else {
-      console.error("Geolocalização não suportada pelo navegador");
-    }
-  };
+  // const setUserLocation = (map: L.Map) => {
+  //   if ("geolocation" in navigator) {
+  //     navigator.geolocation.getCurrentPosition(
+  //       (position) => {
+  //         const { latitude, longitude } = position.coords;
+  //         map.setView([latitude, longitude], 17);
+  //         L.marker([latitude, longitude])
+  //           .addTo(map)
+  //           .bindPopup("<b>Você está aqui!</b>")
+  //           .openPopup();
+  //       },
+  //       (error) => {
+  //         console.error("Erro ao obter localização:", error);
+  //       },
+  //       {
+  //         enableHighAccuracy: true,
+  //         timeout: 10000,
+  //         maximumAge: 0,
+  //       }
+  //     );
+  //   } else {
+  //     console.error("Geolocalização não suportada pelo navegador");
+  //   }
+  // };
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -117,7 +117,7 @@ export default function Map() {
     return () => {
       map?.remove();
     };
-  }, []);
+  }, [map]);
 
   useEffect(() => {
     if (map) {
