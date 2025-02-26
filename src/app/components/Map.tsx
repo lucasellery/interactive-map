@@ -44,17 +44,21 @@ export default function Map() {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      import("leaflet").then((leaflet) => {
-        setL(leaflet);
-        const newMap = leaflet.map("map").setView([34.9438676, -81.9958495], 16);
+      import("leaflet").then((L) => {
+        // Evita múltiplas inicializações
+        if ((L.DomUtil.get("map") as any)?._leaflet_id !== undefined) {
+          return;
+        }
 
-        leaflet.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        const map = L.map("map").setView([34.9438676, -81.9958495], 16);
+
+        L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
           maxZoom: 19,
           attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-        }).addTo(newMap);
+        }).addTo(map);
 
         houses.forEach((house) => {
-          const marker = leaflet.marker([house.lat, house.lng]).addTo(newMap);
+          const marker = L.marker([house.lat, house.lng]).addTo(map);
           marker.on("click", (event) => {
             const { containerPoint } = event;
             setModalPosition({ x: containerPoint.x, y: containerPoint.y });
@@ -62,15 +66,11 @@ export default function Map() {
           });
         });
 
-        newMap.on("click", () => setSelectedHouse(null));
-        setMap(newMap);
+        map.on("click", () => setSelectedHouse(null));
       });
     }
-
-    return () => {
-      map?.remove();
-    };
   }, []);
+
 
   return (
     <div className="">
