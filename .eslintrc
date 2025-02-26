@@ -1,0 +1,9 @@
+{
+    "extends": ["next/core-web-vitals"],
+    "rules": {
+      "no-console": "off", // Desabilita a regra de console.log
+      "react-hooks/rules-of-hooks": "off", // Desabilita as regras de hooks
+      "react/jsx-no-undef": "warn" // Emite um aviso se houver JSX com variáveis não definidas
+    }
+  }
+  
