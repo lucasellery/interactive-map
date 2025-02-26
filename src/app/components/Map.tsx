@@ -70,7 +70,7 @@ export default function Map() {
     return () => {
       map?.remove();
     };
-  }, [L]);
+  }, []);
 
   return (
     <div className="">
