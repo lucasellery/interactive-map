@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import HouseDetailsModal from "./HouseDetailsModal";
+import {Map as LeafletMap} from 'leaflet';
 
 export interface House {
   title: string;
@@ -38,8 +39,8 @@ const houses: House[] = [
 export default function Map() {
   const [selectedHouse, setSelectedHouse] = useState<House | null>(null);
   const [modalPosition, setModalPosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
-  const [map, setMap] = useState<any>(null);
-  const [L, setL] = useState<any>(null);
+  const [map, setMap] = useState<LeafletMap | null>(null);
+	const [L, setL] = useState<typeof import("leaflet") | null>(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
