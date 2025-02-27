@@ -40,24 +40,25 @@ export default function Map() {
   const [selectedHouse, setSelectedHouse] = useState<House | null>(null);
   const [modalPosition, setModalPosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   const [map, setMap] = useState<LeafletMap | null>(null);
-	const [L, setL] = useState<typeof import("leaflet") | null>(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      import("leaflet").then((L) => {
-        if ((L.DomUtil.get("map") as any)?._leaflet_id !== undefined) return;
+      import("leaflet").then((leaflet) => {
 
-        const newMap = L.map("map").setView([34.9438676, -81.9958495], 16);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        if ((leaflet.DomUtil.get("map") as any)?._leaflet_id !== undefined) return;
+
+        const newMap = leaflet.map("map").setView([34.9438676, -81.9958495], 16);
 
 				setMap(newMap);
 
-        L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        leaflet.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
           maxZoom: 19,
           attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
         }).addTo(newMap);
 
         houses.forEach((house) => {
-          const marker = L.marker([house.lat, house.lng]).addTo(newMap);
+          const marker = leaflet.marker([house.lat, house.lng]).addTo(newMap);
 
 					marker.on("click", (event) => {
             const { clientX, clientY } = event.originalEvent;
